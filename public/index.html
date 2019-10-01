@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Complimentr</title>
+    <!-- Include Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Complimentr</h1>
+        <form method="post" action="/add-compliment">
+            <input type="text" placeholder="+15550123456" name="to" v-model="to" />
+            <input type="text" placeholder="Your name" name="sender" v-model="sender" />
+            <input type="text" placeholder="Name of person you are complimenting" name="receiver" v-model="receiver"/>
+            <span>is</span>
+            <input type="text" placeholder="compliment" name="compliment" v-model="compliment"/>
+            <button @click.prevent="sendCompliment">Send compliment</button>
+        </form>
+        <ul v-if="messages.length > 0">
+            <li v-for="message in messages">
+                {{message}}
+            </li>
+        </ul>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                messages: [],
+                to: null,
+                sender: null,
+                receiver: null,
+                compliment: null,
+            },
+            methods: {
+                async refreshMessages() {
+                    const response = await fetch('/api/messages');
+                    this.messages = await response.json();
+                },
+                async sendCompliment() {
+                    // Gather data from the form
+                    const data = {
+                        to: this.to,
+                        sender: this.sender,
+                        receiver: this.receiver,
+                        compliment: this.compliment
+                    };
+                    const response = await fetch('/api/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await response.json();
+                    // Clear the form
+                    this.to = null;
+                    this.sender = null;
+                    this.receiver = null;
+                    this.compliment = null;
+                    this.refreshMessages();
+                    return result;
+                },
+            },
+            created() {
+                this.refreshMessages();
+            },
+        });
+    </script>
+</body>
+</html>
