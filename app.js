@@ -24,7 +24,7 @@ app.get('/api/messages', async (req, res) => {
 app.post('/api/messages', async (req, res) => {
     const to = req.body.to;
     const from = process.env.TWILIO_PHONE_NUMBER;
-    const body = `${req.body.sender} says: ${req.body.receiver} is ${req.body.compliment}`;
+    const body = `${req.body.sender} says: ${req.body.receiver} is ${req.body.compliment}. See more compliments at ${req.headers['referer']}`;
     const message = await client.messages.create({
         to,
         from,
