@@ -5,25 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Complimentr</title>
-    <!-- Include Vue -->
+    <!-- Include Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+     <link href="https://fonts.googleapis.com/css?family=Rubik:400,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/main.css">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="container">
         <h1>Complimentr</h1>
-        <form method="post" action="/add-compliment">
-            <input type="text" placeholder="+15550123456" name="to" v-model="to" />
-            <input type="text" placeholder="Your name" name="sender" v-model="sender" />
-            <input type="text" placeholder="Name of person you are complimenting" name="receiver" v-model="receiver"/>
-            <span>is</span>
-            <input type="text" placeholder="compliment" name="compliment" v-model="compliment"/>
-            <button @click.prevent="sendCompliment">Send compliment</button>
+        <h2> Recent Compliments </h2>
+        <div class="content">
+          <ul v-if="messages.length > 0">
+              <li v-for="message in messages">
+                  {{message}}
+              </li>
+          </ul>
+        </div>
+        <h2> Send a compliment </h2>
+        <form method="post" action="/add-compliment" class="main-form" id="compliment-form">
+            <div class="form-row">
+              <label for="to">
+                Number to compliment
+                <input type="text" placeholder="+15550123456" name="to" v-model="to" />
+              </label>
+              <label for="sender">
+                Your Name
+                <input type="text" placeholder="Jane" name="sender" v-model="sender" />
+              </label>
+            </div>
+            <div class="form-row">
+              <label for="receiver">
+                Person to compliment
+                <input type="text" placeholder="Sally" name="receiver" v-model="receiver"/>
+              </label>
+              <span class="float-text">is</span>
+              <label for="compliment">
+                Your compliment
+                <input type="text" placeholder="an amazing person!" name="compliment" v-model="compliment"/>
+              </label>
+            </div>
         </form>
-        <ul v-if="messages.length > 0">
-            <li v-for="message in messages">
-                {{message}}
-            </li>
-        </ul>
+        <button
+          form="compliment-form"
+          class="compliment-button"
+          @click.prevent="sendCompliment"
+        >
+          Send compliment
+        </button>
     </div>
     <script>
         const app = new Vue({
@@ -48,6 +76,7 @@
                         receiver: this.receiver,
                         compliment: this.compliment
                     };
+
                     const response = await fetch('/api/messages', {
                         method: 'POST',
                         headers: {
