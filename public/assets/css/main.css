@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-family: 'Rubik', sans-serif;
   font-weight: 900;
-  font-size: 3em;
+  font-size: 2em;
   color: #3498db;
   margin-top: .25em;
 }
@@ -87,37 +87,40 @@ h2 {
   flex-flow: column;
   align-items: center;
   justify-content: space-between;
-  width: 35vw;
-  height: 90vh;
-  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
   background-color: #fff;
-  box-shadow: 5px 5px 4px 1px rgba(52,73,94,0.75);
-  border-radius: .5em;
 }
 
 .content {
   flex-grow: 2;
-  margin-top: .5em;
+  margin: .5em 2em 0 2em;
   border-bottom: #bdc3c7 solid 1px;
   overflow-y: scroll;
+}
+
+.content li {
+	margin: .38em 0;
 }
 
 .main-form {
   display: flex;
   flex-flow: column;
-  margin-top: .5em;
+	width: 90%;
+  margin: .5em 2em 0 2em;
 }
 
 .form-row {
   display: flex;
+	flex-flow: column;
   justify-content: space-between;
   align-items: bottom;
   margin: .75em 0;
 }
 
 .form-row label {
-  width: 45%;
   font-size: .75em;
+	margin-top: .75em;
 }
 
 .main-form input {
@@ -131,20 +134,20 @@ h2 {
   outline: none;
   font-size: 1.25em;
   line-height: 2em;
+	border-radius: 0;
 }
 
 .float-text {
   display: flex;
-  align-items: end;
+	margin: .5em 0 2em 0;
   line-height: 2em;
 }
 
 .compliment-button {
-  height: 2.5em;
+  height: 4em;
   width: 100%;
   margin: .5em 0 -.1em 0;
   font-size: 1.25em;
-  border-radius: 0 0 .5em .5em;
   border-style: none;
   background-color: #F25749;
   color: #fff;
@@ -156,4 +159,40 @@ h2 {
 
 .compliment-button:active {
   padding: 8px 13px 6px;
+}
+
+@media(min-width: 48rem) {
+	h1 {
+		font-size: 3em;
+	}
+
+	.container {
+	  width: 35vw;
+	  height: 90vh;
+		box-shadow: 5px 5px 4px 1px rgba(52,73,94,0.75);
+		border-radius: .5em;
+		margin: 0 auto;
+	}
+
+	.form-row {
+		flex-flow: row;
+	}
+
+	.form-row label {
+	  width: 45%;
+	  font-size: .75em;
+	}
+
+	.compliment-button {
+		height: 2.5em;
+		border-radius: 0 0 .5em .5em;
+	}
+
+	.float-text {
+		margin: 0;
+	}
+
+	.form-row label {
+		margin-top: 0;
+	}
 }
