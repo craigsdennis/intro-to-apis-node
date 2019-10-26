@@ -1,104 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Complimentr</title>
     <!-- Include Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-     <link href="https://fonts.googleapis.com/css?family=Rubik:400,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/main.css">
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css?family=Rubik:400,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+  </head>
+  <body>
     <div id="app" class="container">
-        <h1>Complimentr</h1>
-        <h2> Recent Compliments </h2>
-        <div class="content">
-          <ul v-if="messages.length > 0">
-              <li v-for="message in messages">
-                  {{message}}
-              </li>
-          </ul>
+      <h1>Complimentr</h1>
+      <h2>Recent Compliments</h2>
+      <div class="content">
+        <ul v-if="messages.length > 0">
+          <li v-for="message in messages">
+            {{ message }}
+          </li>
+        </ul>
+      </div>
+      <h2>Send a compliment</h2>
+      <form
+        method="post"
+        action="/add-compliment"
+        class="main-form"
+        id="compliment-form"
+      >
+        <div class="form-row">
+          <label for="to">
+            Number to compliment
+            <input
+              type="tel"
+              placeholder="+15550123456"
+              name="to"
+              v-model="to"
+            />
+          </label>
+          <label for="sender">
+            Your Name
+            <input
+              type="text"
+              placeholder="Jane"
+              name="sender"
+              v-model="sender"
+            />
+          </label>
         </div>
-        <h2> Send a compliment </h2>
-        <form method="post" action="/add-compliment" class="main-form" id="compliment-form">
-            <div class="form-row">
-              <label for="to">
-                Number to compliment
-                <input type="tel" placeholder="+15550123456" name="to" v-model="to" />
-              </label>
-              <label for="sender">
-                Your Name
-                <input type="text" placeholder="Jane" name="sender" v-model="sender" />
-              </label>
-            </div>
-            <div class="form-row">
-              <label for="receiver">
-                Person to compliment
-                <input type="text" placeholder="Sally" name="receiver" v-model="receiver"/>
-              </label>
-              <span class="float-text">is</span>
-              <label for="compliment">
-                Your compliment
-                <input type="text" placeholder="an amazing person!" name="compliment" v-model="compliment"/>
-              </label>
-            </div>
-        </form>
-        <button
-          form="compliment-form"
-          class="compliment-button"
-          @click.prevent="sendCompliment"
-        >
-          Send compliment
-        </button>
+        <div class="form-row">
+          <label for="receiver">
+            Person to compliment
+            <input
+              type="text"
+              placeholder="Sally"
+              name="receiver"
+              v-model="receiver"
+            />
+          </label>
+          <span class="float-text">is</span>
+          <label for="compliment">
+            Your compliment
+            <input
+              type="text"
+              placeholder="an amazing person!"
+              name="compliment"
+              v-model="compliment"
+            />
+          </label>
+        </div>
+      </form>
+      <button
+        form="compliment-form"
+        class="compliment-button"
+        @click.prevent="sendCompliment"
+      >
+        Send compliment
+      </button>
     </div>
     <script>
-        const app = new Vue({
-            el: '#app',
-            data: {
-                messages: [],
-                to: null,
-                sender: null,
-                receiver: null,
-                compliment: null,
-            },
-            methods: {
-                async refreshMessages() {
-                    const response = await fetch('/api/messages');
-                    this.messages = await response.json();
-                },
-                async sendCompliment() {
-                    // Gather data from the form
-                    const data = {
-                        to: this.to,
-                        sender: this.sender,
-                        receiver: this.receiver,
-                        compliment: this.compliment
-                    };
+      const app = new Vue({
+        el: "#app",
+        data: {
+          messages: [],
+          to: null,
+          sender: null,
+          receiver: null,
+          compliment: null
+        },
+        methods: {
+          async refreshMessages() {
+            const response = await fetch("/api/messages");
+            this.messages = await response.json();
+          },
+          async sendCompliment() {
+            // Gather data from the form
+            const data = {
+              to: this.to,
+              sender: this.sender,
+              receiver: this.receiver,
+              compliment: this.compliment
+            };
 
-                    const response = await fetch('/api/messages', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    });
-                    const result = await response.json();
-                    // Clear the form
-                    this.to = null;
-                    this.sender = null;
-                    this.receiver = null;
-                    this.compliment = null;
-                    this.refreshMessages();
-                    return result;
-                },
-            },
-            created() {
-                this.refreshMessages();
-            },
-        });
+            const response = await fetch("/api/messages", {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            console.log(result);
+            // Clear the form
+            this.to = null;
+            this.sender = null;
+            this.receiver = null;
+            this.compliment = null;
+            this.refreshMessages();
+            return result;
+          }
+        },
+        created() {
+          this.refreshMessages();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
