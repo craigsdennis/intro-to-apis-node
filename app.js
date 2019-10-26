@@ -33,7 +33,6 @@ app.post('/api/messages', async (req, res) => {
     res.json({body: message.body});
 });
 
-// TODO: POST
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
