@@ -18,9 +18,9 @@
       <h1>Complimentr</h1>
       <h2>Recent Compliments</h2>
       <div class="content">
-        <ul v-if="messages.length > 0">
-          <li v-for="message in messages">
-            {{ message }}
+        <ul v-if="compliments.length > 0">
+          <li v-for="compliment in compliments">
+            {{ compliments }}
           </li>
         </ul>
       </div>
@@ -85,16 +85,16 @@
       const app = new Vue({
         el: "#app",
         data: {
-          messages: [],
+          compliments: [],
           to: null,
           sender: null,
           receiver: null,
           compliment: null
         },
         methods: {
-          async refreshMessages() {
-            const response = await fetch("/api/messages");
-            this.messages = await response.json();
+          async refreshCompliments() {
+            const response = await fetch("/api/compliments");
+            this.compliments = await response.json();
           },
           async sendCompliment() {
             // Gather data from the form
@@ -105,7 +105,7 @@
               compliment: this.compliment
             };
 
-            const response = await fetch("/api/messages", {
+            const response = await fetch("/api/compliments", {
               method: "POST",
               headers: {
                 Accept: "application/json",
@@ -120,12 +120,12 @@
             this.sender = null;
             this.receiver = null;
             this.compliment = null;
-            this.refreshMessages();
+            this.refreshCompliments();
             return result;
           }
         },
         created() {
-          this.refreshMessages();
+          this.refreshCompliments();
         }
       });
     </script>

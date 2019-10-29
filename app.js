@@ -9,20 +9,18 @@ app.use(express.static("public"));
 // Parse the body of requests automatically
 app.use(bodyParser.json());
 
-app.get("/api/messages", async (req, res) => {
+app.get("/api/compliments", async (req, res) => {
   // TODO: Get a list of messages sent from a specific number
   const sentMessages = [];
   // TODO: Gather only the body of those messages for sending to the client
-  const messageBodies = [];
-  res.json(messageBodies);
+  const compliments = [];
+  res.json(compliments);
 });
 
-app.post("/api/messages", async (req, res) => {
+app.post("/api/compliments", async (req, res) => {
   const to = req.body.to;
   const from = process.env.TWILIO_PHONE_NUMBER;
-  const body = `${req.body.sender} says: ${req.body.receiver} is ${
-    req.body.compliment
-  }. See more compliments at ${req.headers["referer"]}`;
+  const body = `${req.body.sender} says: ${req.body.receiver} is ${req.body.compliment}. See more compliments at ${req.headers.referer}`;
   // TODO: Send a message
   res.json({ success: false });
 });
