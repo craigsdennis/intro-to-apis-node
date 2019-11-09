@@ -4,7 +4,7 @@
   "description": "Example application for Introduction to APIs",
   "main": "app.js",
   "scripts": {
-    "start": "cp -u .env.example .env && node app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
