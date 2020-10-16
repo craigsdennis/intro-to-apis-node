@@ -10,7 +10,7 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 
 app.get("/api/compliments", async (req, res) => {
-  // TODO: Get a list of messages sent from a specific number
+  // Get a list of messages sent from a specific number
   const sentMessages = [];
   // TODO: Gather only the body of those messages for sending to the client
   const compliments = [];
